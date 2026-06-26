@@ -1,0 +1,17 @@
+{
+  "name": "e2e",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:visual": "bash run-visual.sh",
+    "test:visual:headed": "bash run-visual.sh --headed"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.61.0"
+  }
+}

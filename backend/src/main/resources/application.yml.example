@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: consultation-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/consultation?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: <your-mysql-password>
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+mybatis-plus:
+  mapper-locations: classpath:mapper/**/*.xml
+  type-aliases-package: com.consultation.infrastructure.persistence.po
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  global-config:
+    db-config:
+      id-type: INPUT
+jwt:
+  secret: <your-jwt-secret>
+  expiration: 86400000

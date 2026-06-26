@@ -1,0 +1,406 @@
+openapi: "3.0.3"
+info:
+  title: 咨询预约平台 API
+  version: 0.1.0
+
+paths:
+  /api/v1/auth/register:
+    post:
+      tags: [Auth]
+      summary: 用户注册
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password, name]
+              properties:
+                email:  { type: string, format: email }
+                password: { type: string, minLength: 8 }
+                name: { type: string }
+                phone: { type: string }
+      responses:
+        "200": { description: 注册成功, content: { application/json: { schema: { $ref: "#/components/schemas/AuthResponse" } } } }
+        "400": { $ref: "#/components/responses/Error400" }
+
+  /api/v1/auth/login:
+    post:
+      tags: [Auth]
+      summary: 用户登录
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:  { type: string, format: email }
+                password: { type: string }
+      responses:
+        "200": { description: 登录成功, content: { application/json: { schema: { $ref: "#/components/schemas/AuthResponse" } } } }
+        "400": { $ref: "#/components/responses/Error400" }
+
+  /api/v1/home/info:
+    get:
+      tags: [Home]
+      summary: 首页信息
+      responses:
+        "200": { description: 首页内容, content: { application/json: { schema: { type: object, properties: { title: { type: string }, description: { type: string } } } } } }
+
+  /api/v1/users/me:
+    get:
+      tags: [User]
+      summary: 获取个人资料
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 用户信息, content: { application/json: { schema: { $ref: "#/components/schemas/UserResponse" } } } }
+        "401": { $ref: "#/components/responses/Error401" }
+    put:
+      tags: [User]
+      summary: 更新个人资料
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        content: { application/json: { schema: { type: object, properties: { name: { type: string }, phone: { type: string } } } } }
+      responses:
+        "200": { description: 更新后的用户信息, content: { application/json: { schema: { $ref: "#/components/schemas/UserResponse" } } } }
+
+  /api/v1/users/me/password:
+    put:
+      tags: [User]
+      summary: 修改密码
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [oldPassword, newPassword]
+              properties:
+                oldPassword: { type: string }
+                newPassword: { type: string, minLength: 8 }
+      responses:
+        "200": { description: 密码修改成功 }
+        "400": { $ref: "#/components/responses/Error400" }
+
+  /api/v1/consultants:
+    get:
+      tags: [Consultant]
+      summary: 获取咨询师列表
+      responses:
+        "200": { description: 咨询师列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/ConsultantResponse" } } } } }
+
+  /api/v1/consultants/{id}/slots:
+    get:
+      tags: [Consultant]
+      summary: 获取咨询师可预约时间段
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+        - name: date
+          in: query
+          required: true
+          schema: { type: string, format: date }
+      responses:
+        "200": { description: 可用时间段列表, content: { application/json: { schema: { type: array, items: { type: object, properties: { startTime: { type: string }, endTime: { type: string } } } } } } }
+
+  /api/v1/appointments:
+    get:
+      tags: [Appointment]
+      summary: 获取我的预约列表
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 预约列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/AppointmentResponse" } } } } }
+    post:
+      tags: [Appointment]
+      summary: 创建预约
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [consultantId, date, startTime, endTime]
+              properties:
+                consultantId: { type: string }
+                branchId: { type: string }
+                date: { type: string, format: date }
+                startTime: { type: string }
+                endTime: { type: string }
+                note: { type: string }
+      responses:
+        "200": { description: 创建成功, content: { application/json: { schema: { $ref: "#/components/schemas/AppointmentResponse" } } } }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /api/v1/appointments/{id}:
+    get:
+      tags: [Appointment]
+      summary: 获取预约详情
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: 预约详情, content: { application/json: { schema: { $ref: "#/components/schemas/AppointmentResponse" } } } }
+
+  /api/v1/appointments/{id}/cancel:
+    put:
+      tags: [Appointment]
+      summary: 取消预约
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content: { application/json: { schema: { type: object, properties: { reason: { type: string } } } } }
+      responses:
+        "200": { description: 取消成功 }
+        "409": { $ref: "#/components/responses/Error409" }
+
+  /admin/dashboard:
+    get:
+      tags: [Admin]
+      summary: 管理仪表盘
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 统计数据, content: { application/json: { schema: { type: object, properties: { totalUsers: { type: integer }, totalConsultants: { type: integer }, totalAppointments: { type: integer }, pendingAppointments: { type: integer }, totalBranches: { type: integer } } } } } }
+
+  /admin/users:
+    get:
+      tags: [Admin]
+      summary: 用户列表（管理员）
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 用户列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/UserResponse" } } } } }
+
+  /admin/users/{id}/toggle-status:
+    put:
+      tags: [Admin]
+      summary: 启用/禁用用户
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: 操作成功 }
+
+  /admin/consultants:
+    get:
+      tags: [Admin]
+      summary: 咨询师列表（管理员）
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 咨询师列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/ConsultantResponse" } } } } }
+
+  /admin/appointments:
+    get:
+      tags: [Admin]
+      summary: 预约列表（管理员，全量）
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 预约列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/AppointmentResponse" } } } } }
+
+  /admin/branches:
+    get:
+      tags: [Admin]
+      summary: 网点列表
+      security: [{ BearerAuth: [] }]
+      responses:
+        "200": { description: 网点列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/BranchResponse" } } } } }
+    post:
+      tags: [Admin]
+      summary: 创建网点
+      security: [{ BearerAuth: [] }]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name: { type: string }
+                address: { type: string }
+                phone: { type: string }
+      responses:
+        "200": { description: 创建成功, content: { application/json: { schema: { $ref: "#/components/schemas/BranchResponse" } } } }
+
+  /admin/branches/{id}:
+    put:
+      tags: [Admin]
+      summary: 更新网点
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name: { type: string }
+                address: { type: string }
+                phone: { type: string }
+      responses:
+        "200": { description: 更新成功 }
+    delete:
+      tags: [Admin]
+      summary: 删除网点
+      security: [{ BearerAuth: [] }]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: 删除成功 }
+
+  /api/v1/data-dictionaries:
+    get:
+      tags: [DataDictionary]
+      summary: 获取所有数据字典类型列表
+      responses:
+        "200": { description: 字典类型列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/DataDictionaryResponse" } } } } }
+
+  /api/v1/data-dictionaries/{type}:
+    get:
+      tags: [DataDictionary]
+      summary: 获取指定字典类型的条目列表
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: 字典条目列表, content: { application/json: { schema: { type: array, items: { type: object, properties: { code: { type: string }, description: { type: string } } } } } } }
+
+  /api/v1/business-rules:
+    get:
+      tags: [BusinessRule]
+      summary: 获取所有业务规则
+      responses:
+        "200": { description: 业务规则列表, content: { application/json: { schema: { type: array, items: { $ref: "#/components/schemas/BusinessRuleResponse" } } } } }
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    UserResponse:
+      type: object
+      properties:
+        id: { type: string }
+        email: { type: string }
+        name: { type: string }
+        phone: { type: string }
+        role: { type: string, enum: [ROLE_USER, ROLE_ADMIN] }
+        status: { type: string, enum: [ACTIVE, DISABLED] }
+
+    AuthResponse:
+      type: object
+      properties:
+        token: { type: string }
+        user: { $ref: "#/components/schemas/UserResponse" }
+
+    ConsultantResponse:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        title: { type: string }
+        bio: { type: string }
+        specialties: { type: string }
+        avatar: { type: string }
+        branchId: { type: string }
+        status: { type: string, enum: [ACTIVE, DISABLED] }
+        sortOrder: { type: integer }
+
+    AppointmentResponse:
+      type: object
+      properties:
+        id: { type: string }
+        userId: { type: string }
+        consultantId: { type: string }
+        branchId: { type: string }
+        appointmentDate: { type: string, format: date }
+        startTime: { type: string }
+        endTime: { type: string }
+        durationMinutes: { type: integer }
+        status: { type: string, enum: [PENDING, CONFIRMED, COMPLETED, CANCELLED] }
+        note: { type: string }
+        cancelReason: { type: string }
+
+    BranchResponse:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        address: { type: string }
+        phone: { type: string }
+        status: { type: string, enum: [ACTIVE, DISABLED] }
+
+    DataDictionaryResponse:
+      type: object
+      properties:
+        typeName: { type: string }
+        description: { type: string }
+        items:
+          type: array
+          items:
+            type: object
+            properties:
+              code: { type: string }
+              description: { type: string }
+
+    BusinessRuleResponse:
+      type: object
+      properties:
+        ruleName: { type: string }
+        description: { type: string }
+        config: { type: object }
+
+    ErrorResponse:
+      type: object
+      properties:
+        errorCode: { type: string }
+        errorMessage: { type: string }
+        data: { type: object, nullable: true }
+
+  responses:
+    Error400:
+      description: 请求参数错误
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Error401:
+      description: 未授权
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Error404:
+      description: 资源不存在
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }
+    Error409:
+      description: 业务冲突
+      content:
+        application/json:
+          schema: { $ref: "#/components/schemas/ErrorResponse" }

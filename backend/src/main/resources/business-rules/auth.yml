@@ -1,0 +1,13 @@
+auth:
+  password:
+    minLength: 8
+    algorithm: "BCrypt"
+  token:
+    expirationMs: 86400000
+    algorithm: "HMAC-SHA256"
+  publicEndpoints:
+    - "/api/v1/auth/**"
+    - "/api/v1/home/**"
+    - "/api/v1/consultants/**"
+    - "/api/v1/data-dictionaries/**"
+    - "/api/v1/business-rules/**"

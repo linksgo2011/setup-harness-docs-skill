@@ -1,0 +1,14 @@
+appointment:
+  conflict:
+    detection: "同一咨询师同一时段不可重复预约"
+    enforcement: "uk_appointment_slot 唯一索引 + AppointmentConflictService 双重校验"
+  slot:
+    minMinutes: 30
+    maxMinutes: 120
+    intervalMinutes: 60
+  available:
+    start: "09:00"
+    end: "18:00"
+  cancel:
+    allowedStatuses: "PENDING, CONFIRMED"
+    reasonRequired: true
