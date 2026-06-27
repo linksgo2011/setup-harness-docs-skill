@@ -5,7 +5,7 @@
 ## 结构
 
 ```
-.agent/skills/setup-harness-docs/  ← 本 skill（自动初始化文档体系）
+skills/setup-harness-docs/  ← 本 skill（自动初始化文档体系）
   ├── SKILL.md                     ← skill 描述
   ├── scaffold.sh                  ← 一键脚手架脚本
   └── templates/                   ← 模板文件（含 8 个开发流程 skills）
@@ -29,7 +29,7 @@ config files:                      ← 根级模板文件
 ### 一键初始化（推荐）
 
 ```bash
-bash .agent/skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
+bash skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
 ```
 
 ### 手工参考

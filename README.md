@@ -5,10 +5,10 @@ Project scaffold for quickly establishing standardized documentation systems in 
 ## Quick Start
 
 ```bash
-bash .agent/skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
+bash skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
 
 # Example: create a Spring Boot + Vue project with full docs structure
-bash .agent/skills/setup-harness-docs/scaffold.sh my-app spring-boot vue
+bash skills/setup-harness-docs/scaffold.sh my-app spring-boot vue
 ```
 
 This creates:
@@ -29,7 +29,7 @@ my-app/
 ## Structure
 
 ```
-.agent/skills/setup-harness-docs/  ← This skill (auto-initializes docs)
+skills/setup-harness-docs/  ← This skill (auto-initializes docs)
   ├── SKILL.md
   ├── scaffold.sh
   └── templates/
