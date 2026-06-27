@@ -41,7 +41,7 @@ echo "📁 Setting up $PROJECT_NAME ..."
 # ── Copy docs structure ──
 echo "  docs/  — creating document hierarchy"
 mkdir -p docs/ba/{chore,feature,prototype,business-fact}
-mkdir -p docs/dev/{standards,plans,adr,design-fact/others}
+mkdir -p docs/dev/{standards,plans,adr,design-fact/others,snippet}
 mkdir -p docs/qa/{e2e-cases,manual-cases,smoking-cases}
 
 # ── Copy placeholder docs ──

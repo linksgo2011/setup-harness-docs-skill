@@ -203,7 +203,8 @@ docs/
 │   ├── standards/    # 开发规范（layers / db / api / security / naming / error / test / business-rule / data-dictionary）
 │   ├── plans/        # 每轮任务的执行方案与变更记录
 │   ├── adr/          # 架构决策记录 (Architecture Decision Records)
-│   └── design-fact/  # 系统当前设计现状（api.yaml / architecture.md / domain-model.md / error-code.md / security.md / state-machine.md / db.md）
+│   ├── design-fact/  # 系统当前设计现状（api.yaml / architecture.md / domain-model.md / error-code.md / security.md / state-machine.md / db.md）
+│   └── snippet/      # 代码打样模版（DDD 各层常见写法参考）
 └── qa/               # 质量保障 (Quality Assurance)
     ├── e2e-cases/    # E2E 测试用例
     ├── manual-cases/ # 手动执行用例

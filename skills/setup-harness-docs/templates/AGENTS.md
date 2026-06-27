@@ -34,7 +34,8 @@ docs/
 │   ├── standards/
 │   ├── plans/
 │   ├── adr/
-│   └── design-fact/
+│   ├── design-fact/
+│   └── snippet/
 └── qa/               # 质量
     ├── e2e-cases/
     ├── manual-cases/

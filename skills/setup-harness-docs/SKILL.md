@@ -11,10 +11,10 @@ description: Initialize a project with the harness documentation structure (docs
 
 ```bash
 # 在目标项目根目录运行
-bash /path/to/setup-harness-docs-skill/.agent/skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
+bash /path/to/setup-harness-docs-skill/skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
 
 # 示例
-bash ../setup-harness-docs-skill/.agent/skills/setup-harness-docs/scaffold.sh my-app spring-boot vue
+bash ../setup-harness-docs-skill/skills/setup-harness-docs/scaffold.sh my-app spring-boot vue
 ```
 
 ## 生成内容
@@ -31,7 +31,8 @@ bash ../setup-harness-docs-skill/.agent/skills/setup-harness-docs/scaffold.sh my
 │   │   ├── standards/         │   开发规范
 │   │   ├── plans/             │   执行方案
 │   │   ├── adr/               │   架构决策
-│   │   └── design-fact/       │   设计事实
+│   │   ├── design-fact/       │   设计事实
+│   │   └── snippet/           │   代码打样模版
 │   └── qa/                   │   质量
 │       ├── e2e-cases/         │   E2E 用例
 │       ├── manual-cases/      │   手动用例
@@ -58,8 +59,9 @@ bash ../setup-harness-docs-skill/.agent/skills/setup-harness-docs/scaffold.sh my
 3. 在 `docs/ba/feature/` 下编写需求规格
 4. 在 `docs/dev/standards/` 下编写开发规范
 5. 在 `docs/ba/business-fact/` 下根据领域模型编写业务事实
-6. 在 `docs/dev/plans/` 下编写开发计划
-7. 在 `docs/qa/` 下编写测试用例
+6. 在 `docs/dev/snippet/` 下存放常见代码打样（可参考 `example-project/docs/dev/snippet/`）
+7. 在 `docs/dev/plans/` 下编写开发计划
+8. 在 `docs/qa/` 下编写测试用例
 
 ## 参考
 

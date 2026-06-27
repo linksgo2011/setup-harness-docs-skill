@@ -8,3 +8,4 @@
 | `plans/` | 每轮任务的执行方案与变更记录 |
 | `adr/` | 架构决策记录（Architecture Decision Records） |
 | `design-fact/` | 系统当前设计现状（API、DB、领域模型、错误码等） |
+| `snippet/` | 代码打样模版（DDD 各层常见写法参考） |

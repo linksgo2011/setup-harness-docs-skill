@@ -17,7 +17,8 @@ This creates:
 my-app/
 ├── docs/                  # Document hierarchy
 │   ├── ba/                #   Business Analysis
-│   ├── dev/               #   Development
+│   ├── dev/                #   Development
+│   │   └── snippet/        #     Code pattern templates
 │   └── qa/                #   Quality Assurance
 ├── .agent/skills/         # 8 development workflow skills
 ├── AGENTS.md              # Architecture & engineering conventions
