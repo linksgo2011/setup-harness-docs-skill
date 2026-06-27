@@ -35,3 +35,59 @@
 
 - 入参：`page`（从 1 开始）、`pageSize`（默认 20）
 - 出参：`{records, total, page, pageSize}`
+
+---
+
+## 前端 API 调用规范
+
+### Service 层封装
+
+每个领域对应一个 service 文件，统一通过 Axios 实例调用：
+
+```typescript
+// src/services/appointmentService.ts
+import api from '@/utils/axios'
+
+export const appointmentService = {
+  list: () => api.get('/appointments'),
+  getById: (id: string) => api.get(`/appointments/${id}`),
+  create: (data: CreateAppointmentDto) => api.post('/appointments', data),
+  cancel: (id: string, reason?: string) => api.put(`/appointments/${id}/cancel`, { reason }),
+}
+```
+
+### Axios 实例配置
+
+```typescript
+// src/utils/axios.ts
+import axios from 'axios'
+
+const api = axios.create({ baseURL: '/api/v1' })
+
+// 请求拦截器：自动附加 JWT
+api.interceptors.request.use(config => {
+  const token = localStorage.getItem('token')
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
+
+// 响应拦截器：统一错误处理与 401 跳转
+api.interceptors.response.use(
+  res => res,
+  error => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  }
+)
+
+export default api
+```
+
+### 响应处理
+
+- 成功响应直接返回 data
+- 业务错误（400/409）在调用处 catch 处理，展示错误消息
+- 网络/系统错误（500）由拦截器统一提示

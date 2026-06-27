@@ -59,6 +59,36 @@ adapter → application → domain ← infrastructure
 - **domain**：纯 POJO + Lombok，无 Spring 注解，承载业务不变量
 - **infrastructure**：实现 domain 的 Repository 接口 + 安全 + 配置
 
+## 前端架构（Vue 3）
+
+```
+src/
+├── views/                    # 页面级组件（按子系统分）
+│   ├── user/                 #   用户端（dashboard, book, appointments, profile）
+│   └── admin/                #   管理端（dashboard, users, consultants, appointments, branches）
+├── components/               # 通用 UI 组件
+│   ├── layout/               #   布局组件（AppHeader, AppSidebar, AppFooter）
+│   └── common/               #   通用组件（StatCard, BookingCalendar, DataTable）
+├── composables/              # 可复用组合式逻辑
+│   ├── useAuth.ts            #   登录/注册/登出逻辑
+│   ├── useBooking.ts         #   预约流程状态管理
+│   └── usePagination.ts      #   分页逻辑
+├── services/                 # API 服务层
+│   ├── axios.ts              #   Axios 实例（拦截器配置）
+│   ├── authService.ts        #   认证相关 API
+│   ├── appointmentService.ts #   预约相关 API
+│   └── consultantService.ts  #   咨询师相关 API
+├── stores/                   # Pinia 全局状态
+│   ├── authStore.ts          #   用户认证状态
+│   └── bookingStore.ts       #   预约流程临时状态
+├── router/                   # Vue Router 配置
+│   └── index.ts              #   路由定义 + 守卫
+├── styles/                   # 全局样式
+│   └── variables.css         #   CSS 变量
+└── types/                    # TypeScript 类型定义
+    └── index.ts              #   接口 DTO 类型
+```
+
 ## 技术栈
 
 | 组件 | 技术 | 版本 |

@@ -167,6 +167,13 @@ DTO 约定：
   - 1 个 Happy Path
   - 关键失败分支（参数错误 / 权限不足 / 业务冲突）
 - DB 相关用例必须可重复执行，不依赖执行顺序
+- 前端 Component/Composable 单元测试使用 Vitest（与源码同目录，`*.test.ts`）
+
+### E2E 测试
+
+- Playwright + Chromium，测试文件位于 `e2e/tests/`
+- 运行命令：`bash e2e-run.sh`（启动前后端 + 等待就绪 + 执行测试）
+- 每个 E2E 测试用例对应 `docs/qa/e2e-cases/test-cases.md` 中的文本用例
 
 ## 11. Frontend Conventions
 
@@ -176,6 +183,9 @@ DTO 约定：
 - Axios 统一封装，请求拦截器自动添加 JWT，响应拦截器处理 401 跳转
 - 全局 CSS 变量位于 `src/styles/variables.css`
 - 视图文件按子系统分组：`src/views/user/`、`src/views/admin/`
+- Service 层封装 API 调用（`src/services/xxxService.ts`），每个领域一个文件
+- Composable 封装可复用逻辑（`src/composables/useXxx.ts`），如 `useBooking`、`useAuth`
+- 页面级组件组合 Composable + UI 组件，视图内不含直接 API 调用
 
 ## 12. PR / Change Checklist
 

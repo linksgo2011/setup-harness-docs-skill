@@ -62,6 +62,18 @@ docs/
 6. **浏览器调试**：UI 交互验证
 7. **编写 E2E 测试**：Playwright 自动化
 
+## 全栈开发规范
+
+每条规范同时覆盖后端与前端。参考 `example-project/` 中的具体内容填充。
+
+| 规范 | 后端 | 前端 |
+|------|------|------|
+| 分层架构 | DDD 四层（adapter/application/domain/infrastructure） | View → Composable → Service → Store |
+| API 调用 | RESTful `/api/v1/` | Axios 实例 + 拦截器 |
+| 安全 | JWT + Spring Security | Token localStorage + 路由守卫 |
+| 错误处理 | GlobalExceptionHandler + IError | Axios 响应拦截器 + ElMessage |
+| 测试 | JUnit 5 + RestAssured | Playwright E2E + Vitest |
+
 ## 开发规范
 
 *在此处补充具体的开发规范，参考 example-project/AGENTS.md。*

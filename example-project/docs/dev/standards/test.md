@@ -37,3 +37,27 @@ spring:
   flyway:
     enabled: false
 ```
+
+---
+
+## 前端测试规范
+
+| 层次 | 测试类型 | 框架 | 关注点 |
+|------|----------|------|--------|
+| View | E2E 测试 | Playwright | 完整用户流程、页面元素可见性 |
+| Composable | 单元测试 | Vitest | 组合式函数逻辑 |
+| Store | 单元测试 | Vitest + Pinia | 状态变更与异步 action |
+| Component | 组件测试 | Vitest + Vue Test Utils | Props/Events/Slots |
+
+### E2E 测试（Playwright）
+
+- 测试文件位于 `e2e/tests/`，以 `.spec.ts` 结尾
+- 运行命令：`bash e2e-run.sh`（启动前后端 + 执行测试）
+- 测试用例需对应 `docs/qa/e2e-cases/` 中的文本用例
+- 使用 Page Object Model 封装页面操作
+
+### Unit 测试（Vitest）
+
+- 测试文件与源码同目录，以 `.test.ts` 结尾
+- Composable 测试：mock service 层，验证响应式状态
+- Store 测试：使用 `setActivePinia(createPinia())` 隔离 store 实例
