@@ -5,21 +5,34 @@
 ## 结构
 
 ```
-example-project/       ← 打磨中的示例项目，作为最佳实践参考
-  ├── AGENTS.md        ← 完整的架构与工程规范
-  ├── docs/            ← 分层文档体系（ba/dev/qa）
-  ├── .agent/skills/   ← 开发流程 skills
-  ├── backend/         ← Spring Boot 3 后端
-  ├── frontend/        ← Vue 3 前端
-  └── e2e/             ← Playwright E2E 测试
+.agent/skills/setup-harness-docs/  ← 本 skill（自动初始化文档体系）
+  ├── SKILL.md                     ← skill 描述
+  ├── scaffold.sh                  ← 一键脚手架脚本
+  └── templates/                   ← 模板文件（含 8 个开发流程 skills）
 
-config files:          ← 根级模板文件
+example-project/                   ← 打磨中的示例项目，作为最佳实践参考
+  ├── AGENTS.md                    ← 完整的架构与工程规范
+  ├── docs/                        ← 分层文档体系（ba/dev/qa）
+  ├── .agent/skills/               ← 开发流程 skills
+  ├── backend/                     ← Spring Boot 3 后端
+  ├── frontend/                    ← Vue 3 前端
+  └── e2e/                         ← Playwright E2E 测试
+
+config files:                      ← 根级模板文件
   ├── opencode.jsonc
   ├── .mcp.json
   └── .gitignore
 ```
 
 ## 使用方式
+
+### 一键初始化（推荐）
+
+```bash
+bash .agent/skills/setup-harness-docs/scaffold.sh <project-name> <backend-type> <frontend-type>
+```
+
+### 手工参考
 
 1. 参考 `example-project/docs/` 的目录结构为新项目建立文档体系
 2. 参考 `example-project/AGENTS.md` 编写项目规范
