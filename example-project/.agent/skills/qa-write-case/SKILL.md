@@ -1,46 +1,46 @@
 ---
 name: qa-write-case
-description: Write manual and smoke test case documents. Use when asked to create test documentation for a feature.
+description: 编写手工和冒烟测试用例文档。当被要求为功能创建测试文档时使用。
 ---
 
-# QA Write Case
+# 质量：编写测试用例
 
-Write test case documents before writing code (AGENTS.md §14 step 2).
+在编写代码之前编写测试用例文档（AGENTS.md §14 第 2 步）。
 
-## Locations
+## 位置
 
-| Type | Path |
+| 类型 | 路径 |
 |------|------|
-| E2E test cases (text) | `docs/qa/e2e-cases/` |
-| Manual test cases | `docs/qa/manual-cases/manual-test-cases.md` |
-| Smoke test cases | `docs/qa/smoking-cases/smoking-test-cases.md` |
+| E2E 测试用例（文本） | `docs/qa/e2e-cases/` |
+| 手工测试用例 | `docs/qa/manual-cases/manual-test-cases.md` |
+| 冒烟测试用例 | `docs/qa/smoking-cases/smoking-test-cases.md` |
 
-## E2E Case Template
-
-```markdown
-### TC-<id>: <title>
-
-| Field | Value |
-|-------|-------|
-| Precondition | |
-| Steps | |
-| Expected | |
-```
-
-## Manual Case Template
+## E2E 用例模板
 
 ```markdown
-### TC-M-<id>: <title>
+### TC-<id>: <标题>
 
-| Project | Content |
-|---------|---------|
-| Precondition | |
-| Steps | 1. ... |
-| Expected | - ... |
+| 字段 | 值 |
+|------|-----|
+| 前置条件 | |
+| 步骤 | |
+| 预期结果 | |
 ```
 
-## Rules
+## 手工用例模板
 
-- Cover: happy path, error cases, edge cases
-- Use seed data (admin@test.com, 3 consultants, 3 branches)
-- Each feature spec in `docs/ba/feature/` should have corresponding test cases
+```markdown
+### TC-M-<id>: <标题>
+
+| 项目 | 内容 |
+|------|------|
+| 前置条件 | |
+| 步骤 | 1. ... |
+| 预期结果 | - ... |
+```
+
+## 规则
+
+- 覆盖：正常路径、错误情况、边界情况
+- 使用种子数据（admin@test.com、3 位咨询师、3 个网点）
+- `docs/ba/feature/` 中的每个功能规格应有对应的测试用例

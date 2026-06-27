@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# ── setup-harness-docs scaffold ──
-# Initializes a project with harness documentation structure.
+# ── setup-harness-docs 脚手架 ──
+# 为项目初始化规范的文档体系结构。
 #
-# Usage:
+# 用法：
 #   bash scaffold.sh <project-name> <backend-type> <frontend-type>
 #
-# Example:
+# 示例：
 #   bash scaffold.sh my-app spring-boot vue
 #
-# Backend types: spring-boot, go, python, node, none
-# Frontend types: vue, react, none
+# 后端类型：spring-boot, go, python, node, none
+# 前端类型：vue, react, none
 # ─────────────────────────────────────
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 TEMPLATES="$SCRIPT_DIR/templates"
 
 if [ $# -lt 1 ]; then
-  echo "Usage: bash scaffold.sh <project-name> [backend-type] [frontend-type]"
+  echo "用法：bash scaffold.sh <project-name> [backend-type] [frontend-type]"
   exit 1
 fi
 
@@ -27,24 +27,24 @@ BACKEND="${2:-spring-boot}"
 FRONTEND="${3:-vue}"
 TARGET_DIR="${PROJECT_NAME}"
 
-# ── Create target directory ──
+# ── 创建目标目录 ──
 if [ -d "$TARGET_DIR" ]; then
-  echo "⚠️  Target directory '$TARGET_DIR' already exists. Files may be overwritten."
+  echo "⚠️  目标目录 '$TARGET_DIR' 已存在。文件可能会被覆盖。"
 else
   mkdir -p "$TARGET_DIR"
 fi
 
 cd "$TARGET_DIR"
 
-echo "📁 Setting up $PROJECT_NAME ..."
+echo "📁 正在初始化 $PROJECT_NAME ..."
 
-# ── Copy docs structure ──
-echo "  docs/  — creating document hierarchy"
+# ── 复制文档结构 ──
+echo "  docs/  — 创建文档层级目录"
 mkdir -p docs/ba/{chore,feature,prototype,business-fact}
 mkdir -p docs/dev/{standards,plans,adr,design-fact/others,snippet}
 mkdir -p docs/qa/{e2e-cases,manual-cases,smoking-cases}
 
-# ── Copy placeholder docs ──
+# ── 复制占位文档 ──
 for dir in $(find "$TEMPLATES/docs" -type d | tail -n +2); do
   rel="${dir#$TEMPLATES/}"
   for f in "$dir"/*.md 2>/dev/null; do
@@ -52,8 +52,8 @@ for dir in $(find "$TEMPLATES/docs" -type d | tail -n +2); do
   done
 done
 
-# ── Copy agent skills ──
-echo "  .agent/skills/  — copying development skills"
+# ── 复制 agent skills ──
+echo "  .agent/skills/  — 复制开发流程 skills"
 if [ -d "$TEMPLATES/agent/skills" ]; then
   mkdir -p .agent/skills
   for skill_dir in "$TEMPLATES"/agent/skills/*/; do
@@ -61,8 +61,8 @@ if [ -d "$TEMPLATES/agent/skills" ]; then
   done
 fi
 
-# ── Copy config files (with replacements) ──
-echo "  Config files  — generating"
+# ── 复制配置文件（含替换） ──
+echo "  配置文件  — 正在生成"
 for f in AGENTS.md opencode.jsonc .mcp.json .gitignore; do
   src="$TEMPLATES/$f"
   if [ -f "$src" ]; then
@@ -74,12 +74,12 @@ for f in AGENTS.md opencode.jsonc .mcp.json .gitignore; do
   fi
 done
 
-# ── Done ──
+# ── 完成 ──
 echo ""
-echo "✅ $PROJECT_NAME initialized!"
+echo "✅ $PROJECT_NAME 初始化完成！"
 echo ""
-echo "Next steps:"
-echo "  1. Edit AGENTS.md with project-specific conventions"
-echo "  2. Fill docs/ba/feature/ with requirements"
-echo "  3. Fill docs/dev/standards/ with development conventions"
-echo "  4. Start implementing with dev-plan skill"
+echo "后续步骤："
+echo "  1. 编辑 AGENTS.md，填写项目专属规范"
+echo "  2. 在 docs/ba/feature/ 中编写需求"
+echo "  3. 在 docs/dev/standards/ 中编写开发规范"
+echo "  4. 使用 dev-plan skill 开始开发"

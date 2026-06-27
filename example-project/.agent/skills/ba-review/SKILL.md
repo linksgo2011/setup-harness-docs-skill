@@ -1,24 +1,24 @@
 ---
 name: ba-review
-description: Review business analysis documents for completeness, consistency, and traceability to the codebase. Use when asked to review features, business facts, or requirements.
+description: 审核业务分析文档的完整性、一致性和对代码库的可追溯性。当被要求审核功能、业务事实或需求时使用。
 ---
 
-# BA Review
+# 业务分析文档审核
 
-Review business analysis documents in `docs/ba/`.
+审核 `docs/ba/` 中的业务分析文档。
 
-## Checklist
+## 检查清单
 
-- [ ] Feature specs (`docs/ba/feature/`) clearly describe the user-facing behavior
-- [ ] Business facts (`docs/ba/business-fact/`) align with the actual domain model and domain services
-- [ ] All states and transitions in the domain are documented
-- [ ] Business rules referenced in docs match `domain/businessrule/` enums and YAML config
-- [ ] Seed data is consistent with what's documented
+- [ ] 功能规格（`docs/ba/feature/`）清晰描述了面向用户的行为
+- [ ] 业务事实（`docs/ba/business-fact/`）与实际领域模型和领域服务一致
+- [ ] 领域中的所有状态和迁移都已记录
+- [ ] 文档中引用的业务规则与 `domain/businessrule/` 中的枚举和 YAML 配置匹配
+- [ ] 种子数据与文档内容一致
 
-## Cross-reference
+## 交叉引用
 
-| Docs | Code |
+| 文档 | 代码 |
 |------|------|
-| `docs/ba/feature/` | Controllers, application services |
-| `docs/ba/business-fact/` | Domain aggregates, business rules, state machine |
-| `docs/ba/prototype/` | Frontend views and routes |
+| `docs/ba/feature/` | Controller、应用服务 |
+| `docs/ba/business-fact/` | 领域聚合、业务规则、状态机 |
+| `docs/ba/prototype/` | 前端视图和路由 |

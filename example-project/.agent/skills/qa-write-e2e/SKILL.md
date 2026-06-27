@@ -1,28 +1,28 @@
 ---
 name: qa-write-e2e
-description: Write and run automated tests — backend API integration tests (RestAssured) and frontend E2E tests (Playwright). Use when asked to write or run tests.
+description: 编写并运行自动化测试——后端 API 集成测试（RestAssured）和前端 E2E 测试（Playwright）。当被要求编写或运行测试时使用。
 ---
 
-# QA Write E2E
+# 质量：编写 E2E 测试
 
-## Backend API Tests (RestAssured)
+## 后端 API 测试（RestAssured）
 
 ```bash
 cd backend && mvn test
 ```
 
-Test classes in `backend/src/test/java/com/consultation/adapter/rest/`:
-- `AuthControllerTest` — register, login, duplicate email, wrong password
-- `AppointmentControllerTest` — create, list, conflict, cancel
-- `AdminControllerTest` — dashboard, users, branches CRUD, data dict, business rules
-- `ConsultantControllerTest` — list, slots, invalid consultant
-- `UserControllerTest` — profile, update, change password
+测试类位于 `backend/src/test/java/com/consultation/adapter/rest/`：
+- `AuthControllerTest` — 注册、登录、重复邮箱、错误密码
+- `AppointmentControllerTest` — 创建、列表、冲突、取消
+- `AdminControllerTest` — 仪表盘、用户、网点 CRUD、数据字典、业务规则
+- `ConsultantControllerTest` — 列表、时段、无效咨询师
+- `UserControllerTest` — 个人资料、更新、修改密码
 
-## Pattern
+## 模式
 
 ```java
-// TDD red phase: write test first, then implement
-// TestBase provides: loginAsUser(), loginAsAdmin(), authHeader()
+// TDD 红牌阶段：先写测试，再实现
+// TestBase 提供：loginAsUser()、loginAsAdmin()、authHeader()
 @Test
 void should_create_appointment() {
     String token = loginAsUser();
@@ -30,18 +30,18 @@ void should_create_appointment() {
 }
 ```
 
-## Playwright E2E Tests
+## Playwright E2E 测试
 
 ```bash
 ./e2e-run.sh
-# or specific file:
+# 或指定文件：
 ./e2e-run.sh tests/app.spec.ts
 ```
 
-Tests in `e2e/tests/app.spec.ts` cover: public pages, auth, user lifecycle, admin flows, edge cases.
+`e2e/tests/app.spec.ts` 中的测试覆盖：公共页面、认证、用户生命周期、管理流程、边界情况。
 
-## Write New Test
+## 编写新测试
 
-1. Add test to existing describe block or create new block in `e2e/tests/app.spec.ts`
-2. Follow the existing pattern (login first, interact, assert)
-3. Run `./e2e-run.sh tests/app.spec.ts` to verify
+1. 在 `e2e/tests/app.spec.ts` 的已有 describe 块中添加测试或创建新块
+2. 遵循现有模式（先登录、交互、断言）
+3. 运行 `./e2e-run.sh tests/app.spec.ts` 验证

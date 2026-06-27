@@ -1,8 +1,8 @@
-# Architecture & Engineering Conventions (Consultation Booking Monolith)
+# 架构与工程规范（咨询预约单体应用）
 
 本文件定义本代码库的架构边界、分层规则、模块职责与工程规范。目标是让新成员与自动化工具在不了解上下文的情况下，也能按一致方式新增功能、扩展模块并避免破坏依赖关系。
 
-## 1. Repository Topology
+## 1. 仓库拓扑
 
 这是一个全栈工程（Java 17 / Spring Boot 3.2.x / Vue 3 + TypeScript），主要模块如下：
 
@@ -15,7 +15,7 @@
 - 后端直连 MySQL，不经过 BFF 层
 - JWT 由后端直接签发与校验（HMAC-SHA256）
 
-## 2. Cross-Cutting: Auth & UserContext
+## 2. 横切关注点：鉴权与用户上下文
 
 当前约定的鉴权与上下文传递：
 
@@ -30,7 +30,7 @@
 - 应用层/领域层不得依赖 Web 框架对象（Request/Response），只能依赖 `UserContextHolder` 或方法参数传入的 `userId`
 - Admin 端路由使用 `/admin/**` 路径，后端 `SecurityConfig` 限制为 `ROLE_ADMIN`
 
-## 3. Standard Layers
+## 3. 标准分层
 
 业务代码遵循四层结构（包路径 `com.consultation.*`）：
 
@@ -45,7 +45,7 @@
 - infrastructure → domain（实现 domain 定义的接口）
 - domain 不得依赖 infrastructure / adapter / Web 框架
 
-## 4. DTO, Assembler, Converter Conventions
+## 4. DTO、Assembler 与 Converter 约定
 
 DTO 约定：
 
@@ -60,7 +60,7 @@ DTO 约定：
 - 入参先在 Controller 中校验（`@Valid`），以 DTO 传入 application 层
 - 使用手动转换（非 MapStruct），遵循现有 Converter/Assembler 命名
 
-## 5. Persistence Rules (MyBatis-Plus)
+## 5. 持久化规则（MyBatis-Plus）
 
 当前技术栈：
 
@@ -75,7 +75,7 @@ DTO 约定：
 - 聚合内的子实体由 repository 在同一事务内完成装配与持久化
 - 复杂查询优先走 Mapper + DTO，写操作必须通过聚合行为与 repository
 
-## 6. Transaction Boundary
+## 6. 事务边界
 
 事务边界统一放在 application 层：
 
@@ -83,7 +83,7 @@ DTO 约定：
 - domain 方法不直接开启/提交事务
 - `@Transactional` 不在 Controller 或 Repository 层使用
 
-## 7. Error Model & Exception Handling
+## 7. 错误模型与异常处理
 
 错误处理统一使用 `ErrorResponse` 与全局异常处理：
 
@@ -102,7 +102,7 @@ DTO 约定：
 }
 ```
 
-## 8. Domain Design: Aggregates & Rules
+## 8. 领域设计：聚合与规则
 
 当前定义的聚合：
 
@@ -125,7 +125,7 @@ DTO 约定：
 - `DemoDataDictionaryType` 完成注册
 - `DataDictionaryController` 提供 GET 查询接口
 
-## 9. Appointment State Machine
+## 9. 预约状态机
 
 ```
                         ┌──────────┐
@@ -144,7 +144,7 @@ DTO 约定：
 - CANCELLED：从任意非终态取消
 - 状态变更由 domain 层 `Appointment.canCancel()` 等守卫方法控制
 
-## 10. Testing Conventions
+## 10. 测试规范
 
 ### 测试技术栈
 
@@ -154,7 +154,7 @@ DTO 约定：
 - 测试使用 `schema.sql` + `data.sql` 初始化数据
 - ResetDbService 在每个 `@BeforeEach` 中 TRUNCATE 全表
 
-### 测试 profile
+### 测试环境配置
 
 - 测试使用 `application.yml`（test resources），配置 MariaDB4j
 - Flyway 在测试中禁用（`spring.flyway.enabled=false`）
@@ -175,7 +175,7 @@ DTO 约定：
 - 运行命令：`bash e2e-run.sh`（启动前后端 + 等待就绪 + 执行测试）
 - 每个 E2E 测试用例对应 `docs/qa/e2e-cases/test-cases.md` 中的文本用例
 
-## 11. Frontend Conventions
+## 11. 前端规范
 
 - Vue 3 Composition API + `<script setup>` 语法
 - Pinia 管理全局状态（auth store 位于 `src/stores/auth.ts`）
@@ -187,7 +187,7 @@ DTO 约定：
 - Composable 封装可复用逻辑（`src/composables/useXxx.ts`），如 `useBooking`、`useAuth`
 - 页面级组件组合 Composable + UI 组件，视图内不含直接 API 调用
 
-## 12. PR / Change Checklist
+## 12. PR / 变更检查清单
 
 - 分层检查：adapter 不含业务逻辑；domain 不依赖 infrastructure；事务边界在 application
 - 错误处理：业务校验使用 `BusinessException`，避免裸 `RuntimeException`
@@ -198,7 +198,7 @@ DTO 约定：
 - 数据库变更：新增 DDL 需同时更新 Flyway migration 文件、测试 `schema.sql`、以及 `docs/dev/design-fact/db.md`
 - 验证：本地运行 `mvn test` 确认全部通过，`npm run build` 确认前端编译通过
 
-## 13. Documentation Structure
+## 13. 文档结构
 
 文档体系位于 `docs/` 目录，所有 AI Agent 及开发人员必须遵守以下路径约定：
 
@@ -235,7 +235,7 @@ docs/
 
 - [ ] `docs/` 同步检查（已更新 / 不涉及）
 
-## 14. Development Workflow (每轮需求的标准执行步骤)
+## 14. 开发流程（每轮需求的标准执行步骤）
 
 每轮需求开发必须按以下顺序执行，严禁跳过或调换步骤：
 

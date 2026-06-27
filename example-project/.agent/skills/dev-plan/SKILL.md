@@ -1,34 +1,34 @@
 ---
 name: dev-plan
-description: Create a development plan in docs/dev/plans/ before writing any code. Use when starting a new feature, refactoring, or any non-trivial change.
+description: 在编写任何代码之前在 docs/dev/plans/ 中创建开发计划。当开始新功能、重构或任何非简单变更时使用。
 ---
 
-# Dev Plan
+# 开发：制定计划
 
-Create a plan in `docs/dev/plans/` before implementing.
+在实现前在 `docs/dev/plans/` 中创建计划。
 
-## Template
+## 模板
 
 ```markdown
-# Plan: <title>
+# Plan: <标题>
 
-## Goal
+## 目标
 
-## Technical Approach
+## 技术方案
 
-## Task Breakdown
+## 任务拆分
 
-- [ ] Task 1
-- [ ] Task 2
+- [ ] 任务 1
+- [ ] 任务 2
 
-## Files to Change
+## 需变更的文件
 
-## Risks
+## 风险
 ```
 
-## Rules
+## 规则
 
-- Plan must be reviewed and confirmed by the user before proceeding (AGENTS.md §14 step 1)
-- Include file paths for every file that needs to change
-- Reference existing patterns (assemblers, converters, services) to maintain consistency
-- Consider docs sync: will this change affect `docs/dev/design-fact/` files?
+- 计划必须经用户审核确认后方可继续（AGENTS.md §14 第 1 步）
+- 包含每个需要变更的文件的路径
+- 参考现有模式（assembler、converter、service）以保持一致性
+- 考虑文档同步：本次变更是否会影响 `docs/dev/design-fact/` 中的文件？

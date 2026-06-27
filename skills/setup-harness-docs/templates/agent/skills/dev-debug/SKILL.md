@@ -1,36 +1,36 @@
 ---
 name: dev-debug
-description: Debug frontend and backend issues using chrome-devtools-mcp. Use when the browser shows errors, UI looks wrong, or network requests fail.
+description: 使用 chrome-devtools-mcp 调试前端和后端问题。适用于浏览器报错、UI 显示异常或网络请求失败的场景。
 ---
 
-# Dev Debug
+# Dev 调试
 
-## Start the Stack
+## 启动服务栈
 
 ```bash
 ./e2e-run.sh
 ```
 
-Only start services without running tests if needed.
+必要时仅启动服务而不运行测试。
 
-## chrome-devtools-mcp Tools
+## chrome-devtools-mcp 工具
 
-The MCP server (`chrome-devtools` in `.mcp.json`) provides:
+MCP 服务器（`.mcp.json` 中的 `chrome-devtools`）提供：
 
-- `navigate_page` — Go to a URL
-- `take_screenshot` — Capture page/element screenshot
-- `take_snapshot` — Get accessibility tree (text DOM snapshot with uids)
-- `click`, `fill`, `fill_form` — Interact with elements
-- `list_console_messages`, `get_console_message` — Read browser console
-- `list_network_requests`, `get_network_request` — Inspect network
-- `evaluate_script` — Run JS in page context
-- `performance_start_trace` — Record performance trace
+- `navigate_page` — 导航到 URL
+- `take_screenshot` — 截取页面/元素截图
+- `take_snapshot` — 获取无障碍树（带 uid 的文本 DOM 快照）
+- `click`, `fill`, `fill_form` — 与元素交互
+- `list_console_messages`, `get_console_message` — 读取浏览器控制台
+- `list_network_requests`, `get_network_request` — 检查网络请求
+- `evaluate_script` — 在页面上下文中运行 JS
+- `performance_start_trace` — 记录性能追踪
 
-## Debug Flow
+## 调试流程
 
-1. Navigate to the problem page
-2. Check console for errors (`list_console_messages`)
-3. Check network for failed requests (`list_network_requests`)
-4. Take a DOM snapshot to inspect state (`take_snapshot`)
-5. If UI issue, take a screenshot (`take_screenshot`)
-6. For performance issues, start a trace (`performance_start_trace`)
+1. 导航到问题页面
+2. 检查控制台错误（`list_console_messages`）
+3. 检查网络失败请求（`list_network_requests`）
+4. 获取 DOM 快照检查状态（`take_snapshot`）
+5. 如果是 UI 问题，截取屏幕截图（`take_screenshot`）
+6. 如果是性能问题，启动性能追踪（`performance_start_trace`）

@@ -1,6 +1,6 @@
 ---
 name: setup-harness-docs
-description: Initialize a project with the harness documentation structure (docs/ba/dev/qa), AGENTS.md conventions, opencode config, and development skills. Use when asked to set up docs, initialize a project, or scaffold a new codebase.
+description: 为新项目初始化规范的文档体系（docs/ba/dev/qa），包含 AGENTS.md 工程规范、opencode 配置和开发流程 skills。适用于搭建文档、初始化项目或脚手架新代码库的场景。
 ---
 
 # setup-harness-docs
